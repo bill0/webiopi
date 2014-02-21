@@ -67,7 +67,7 @@ class HYT221(I2C, Temperature, Humidity):
     def __getHumidity__(self):
         (raw_t, raw_h) = self.readRawData()
         if raw_h < 0x3FFF:
-            return raw_h / 2**14
+            return raw_h * 1.0 / 2**14
         else:
             raise ValueError("Humidity value out of range (RawValue=0x%04X Max:0x3FFF)" % raw_h)
        

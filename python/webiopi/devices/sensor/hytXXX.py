@@ -41,11 +41,10 @@ class HYT221(I2C, Temperature, Humidity):
             # try a read every 10 ms for maximum VAL_RETRIES times
             sleep(.01)
             data_bytes=self.readBytes(4)
-            raw_t = ((data_bytes[2] << 8) | data_bytes[3]) >> 2
-            raw_h = ((data_bytes[0] & 0b00111111) << 8) | data_bytes[1]
-            
             stale_bit = (data_bytes[0] & 0b01000000) >> 6
             if (stale_bit == 0):    
+                raw_t = ((data_bytes[2] << 8) | data_bytes[3]) >> 2
+                raw_h = ((data_bytes[0] & 0b00111111) << 8) | data_bytes[1]
                 return (raw_t, raw_h)
 
         #Stale was never 0, so datas are not actual

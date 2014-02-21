@@ -147,9 +147,11 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.send_response(code)
             self.send_header("Cache-Control", "no-cache")
             if body != None:
+                encodedBody = body.encode();
                 self.send_header("Content-Type", contentType);
+                self.send_header("Content-Length", len(encodedBody));
                 self.end_headers();
-                self.wfile.write(body.encode())
+                self.wfile.write(encodedBody)
         self.logRequest(code)
 
     def findFile(self, filepath):

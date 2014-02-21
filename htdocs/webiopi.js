@@ -694,6 +694,10 @@ WebIOPi.prototype.newDevice = function(type, name) {
 		return new PiFaceDigital(name);
 	}
 
+	if (type == "Humidity") {
+		return new Humidity(name);
+	}
+
 	return undefined;
 }
 
@@ -1470,3 +1474,40 @@ PiFaceDigital.prototype.refreshUI = function() {
 	});
 }
 
+function Humidity(name) {
+	this.name = name;
+	this.url = "/devices/" + name + "/sensor";
+	this.refreshTime = 5000;
+}
+
+Humidity.prototype.toString = function() {
+	return this.name + ": Humidity";
+}
+
+Humidity.prototype.getHumidity = function(callback) {
+	$.get(this.url + "/humidity/float", function(data) {
+		callback(this.name, data);
+	});
+}
+
+Humidity.prototype.getHumidityPercent = function(callback) {
+	$.get(this.url + "/humidity/percent", function(data) {
+		callback(this.name, data);
+	});
+}
+
+Humidity.prototype.refreshUI = function() {
+	var temp = this;
+	var element = this.element;
+	if ((element != undefined) && (element.header == undefined)) {
+		element.header = $("<h3>" + this + "</h3>");
+		element.append(element.header);
+	}
+	
+	this.getHumidityPercent(function(name, data){
+		if (element != undefined) {
+			element.header.text(temp + ": " + data + "%");
+		}
+		setTimeout(function(){temp.refreshUI()}, temp.refreshTime);
+	});
+}

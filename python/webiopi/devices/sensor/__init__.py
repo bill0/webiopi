@@ -169,9 +169,28 @@ class Distance():
     def getYard(self):
         return self.getInch() / 36
     
+class Humidity():
+    def __family__(self):
+        return "Humidity"
+    
+    def __getHumidity__(self):
+        raise NotImplementedError    
+    
+    @request("GET", "sensor/humidity/float")
+    @response("%f")
+    def getHumidity(self):
+        return self.__getHumidity__()
+    
+    @request("GET", "sensor/humidity/percent")
+    @response("%d")
+    def getHumidityPercent(self):
+        return self.__getHumidity__() * 100
+        
 DRIVERS = {}
 DRIVERS["bmp085"] = ["BMP085", "BMP180"]
 DRIVERS["onewiretemp"] = ["DS1822", "DS1825", "DS18B20", "DS18S20", "DS28EA00"]
 DRIVERS["tmpXXX"] = ["TMP75", "TMP102", "TMP275"]
 DRIVERS["tslXXXX"] = ["TSL2561", "TSL2561CS", "TSL2561T", "TSL4531", "TSL45311", "TSL45313", "TSL45315", "TSL45317"]
 DRIVERS["vcnl4000"] = ["VCNL4000"]
+DRIVERS["hytXXX"] = ["HYT221"]
+

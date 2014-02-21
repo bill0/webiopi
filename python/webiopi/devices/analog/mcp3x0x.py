@@ -44,6 +44,27 @@ class MCP300X(MCP3X0X):
         d[1] |= ((channel >> 0) & 0x01) << 4
         return d
         
+class MCP3002(MCP300X):
+    def __init__(self, chip=0):
+        MCP300X.__init__(self, chip, 2, "MCP3002")
+
+    def __analogRead__(self, channel, diff):
+        data = self.__command__(channel, diff)
+        r = self.xfer(data)
+
+        # Format of return is
+        # 1 empty bit
+        # 1 null bit
+        # 10 ADC bits
+        return (r[0]<<14 | r[1]<<6 | r[2]>>2) & ((2**self._analogResolution)-1)
+
+    def __command__(self, channel, diff):
+        d = [0x00, 0x00, 0x00]
+        d[0] |= 1                                 #start bit
+        d[1] |= (not diff) << 7                   #single/differntial input
+        d[1] |= channel  << 6                     #channel select
+        return d
+
 class MCP3004(MCP300X):
     def __init__(self, chip=0):
         MCP300X.__init__(self, chip, 4, "MCP3004")

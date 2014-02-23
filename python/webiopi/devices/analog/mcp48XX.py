@@ -12,15 +12,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-from webiopi.utils import *
+from webiopi.utils.types import toint
 from webiopi.devices.spi import SPI
 from webiopi.devices.analog import DAC
-import logging
 
 class MCP48XX(SPI, DAC):
     def __init__(self, chip, channelCount, resolution, name):
-        SPI.__init__(self, toint(chip), 0, 8, 10000000, name)
+        SPI.__init__(self, toint(chip), 0, 8, 10000000)
         DAC.__init__(self, channelCount, resolution, 2.048)
+        self.name = name
         self.buffered=False
         self.gain=False
         self.shutdown=True
@@ -49,11 +49,6 @@ class MCP48XX(SPI, DAC):
         d[0] |= 0x00                              # bits 8-11 = msb data
         d[1] |= 0x00                              # bits 0 - 7 = lsb data
         
-        #self.logger.debug('MCP48XX - analogWriteShut - byte1 - "%s" -' % (self.int2bin(d[1],16)))
-        #self.logger.debug('MCP48XX - analogWriteShut - byte0 - "%s" -' % (self.int2bin(d[0],16)))
-        
-        #self.logger.debug('MCP48XX - analogWriteShut - "%s" -' % (d))
-
         self.writeBytes(d)
         self.values[channel] = None
 
@@ -65,13 +60,8 @@ class MCP48XX(SPI, DAC):
         d[0] |= (not self.gain & 0x01) << 5               # bit 13 = gain
         d[0] |= (not self.shutdown & 0x01) << 4           # bit 12 = shutdown
         d[0] |= value >> (self._analogResolution - 4)     # bits 8-11 = msb data
-        #self.logger.debug('MCP4802 - analogWrite - byte0 - "%s" -' % (self.int2bin(d[0],16)))
-
         d[1] |= ((value << (12-self._analogResolution)) & 0xFF) # bits 4 - 7 = lsb data (4802) bits 2-7 (4812) bits 0-7 (4822)                              # bits 0 - 3 = ignored                       
-        #self.logger.debug('MCP4802 - analogWrite - byte1 - "%s" -' % (self.int2bin(d[1],16)))
         
-        #self.logger.debug('MCP4802 - analogWrite - "%s" -' % (d))
-
         self.writeBytes(d)
         self.values[channel] = value
        

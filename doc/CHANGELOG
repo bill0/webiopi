@@ -1,4 +1,4 @@
-==trunk/developer version==
+==0.7 (xx/02/14)==
    improved touch device handling (issue #73)
 
    added PiFaceDigital driver

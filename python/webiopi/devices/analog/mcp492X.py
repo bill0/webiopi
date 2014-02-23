@@ -17,9 +17,9 @@ from webiopi.devices.spi import SPI
 from webiopi.devices.analog import DAC
 
 class MCP492X(SPI, DAC):
-    def __init__(self, chip, channelCount):
+    def __init__(self, chip, channelCount, vref):
         SPI.__init__(self, toint(chip), 0, 8, 10000000)
-        DAC.__init__(self, channelCount, 12, 3.3)
+        DAC.__init__(self, channelCount, 12, float(vref))
         self.buffered=False
         self.gain=False
         self.shutdown=False
@@ -44,10 +44,10 @@ class MCP492X(SPI, DAC):
         self.values[channel] = value
 
 class MCP4921(MCP492X):
-    def __init__(self, chip=0):
+    def __init__(self, chip=0, vref=3.3):
         MCP492X.__init__(self, chip, 1)
 
 class MCP4922(MCP492X):
-    def __init__(self, chip=0):
+    def __init__(self, chip=0, vref=3.3):
         MCP492X.__init__(self, chip, 2)
 

@@ -33,11 +33,7 @@ class MCP48XX(SPI, DAC):
         return "".join([str((n >> y) & 1 ) for y in range(count-1,-1,-1)])
 
     def __analogRead__(self, channel, diff=False):
-        if self.shutdown:
-            ret = None
-        else:
-            ret = self.values[channel]
-        return ret
+        return self.values[channel]
 
     def __analogWriteShut__(self, channel):
         self.shutdown = True
@@ -50,7 +46,7 @@ class MCP48XX(SPI, DAC):
         d[1] |= 0x00                              # bits 0 - 7 = lsb data
         
         self.writeBytes(d)
-        self.values[channel] = None
+        self.values[channel] = 0
 
     def __analogWrite__(self, channel, value):
         self.shutdown=False

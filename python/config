@@ -35,6 +35,9 @@ port = 8000
 # Use webiopi-passwd command to generate it
 passwd-file = /etc/webiopi/passwd
 
+# Change login prompt message
+prompt = "WebIOPi"
+
 # Use doc-root to change default HTML and resource files location
 #doc-root = /home/pi/webiopi/examples/scripts/macros
 
@@ -91,8 +94,9 @@ multicast = true
 #pwm0 = PCA9685
 #pwm1 = PCA9685 slave:0x41
 
-#adc = MCP3008
-#dac = MCP4922 chip:1
+#adc0 = MCP3008
+#adc1 = MCP3008 chip:1 vref:5
+#dac1 = MCP4922 chip:1
 
 #------------------------------------------------------------------------#
 

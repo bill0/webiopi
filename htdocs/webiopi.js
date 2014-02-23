@@ -945,6 +945,7 @@ function DAC(name) {
 	this.channelCount = 0;
 	this.maxInteger = 0;
 	this.resolution = 0;
+	this.vref = 0;
 	
 	var dac = this;
 	$.get(this.url + "/count", function(data) {
@@ -958,10 +959,14 @@ function DAC(name) {
 	$.get(this.url + "/resolution", function(data) {
 		dac.resolution = parseInt(data);
 	});
+
+	$.get(this.url + "/vref", function(data) {
+		dac.vref = parseFloat(data);
+	});
 }
 
 DAC.prototype.isReady = function() {
-	return (this.channelCount > 0 && this.maxInteger > 0 && this.resolution > 0 );
+	return (this.channelCount > 0 && this.maxInteger > 0 && this.resolution > 0 && this.vref > 0);
 }
 
 DAC.prototype.toString = function() {
@@ -1034,7 +1039,7 @@ DAC.prototype.refreshUI = function() {
 			slider.bind("change", function() {
 				dac.writeFloat($(this).attr("channel"), $(this).val()/100, function(name, channel, data) {
 					var val = (data*100).toFixed(0);
-					var volts = (data*3.3).toFixed(2);
+					var volts = (data*dac.vref).toFixed(2);
 					$("#span_" + name + "_" + channel).text(volts + "V - " + val + "%");
 					$("#slider_" + name + "_" + channel).val(val);
 				});
@@ -1045,7 +1050,7 @@ DAC.prototype.refreshUI = function() {
 		this.readAllFloat(function(name, data) {
 			for (i in data) {
 				var val = (data[i]*100).toFixed(0);
-				var volts = (data[i]*3.3).toFixed(2);
+				var volts = (data[i]*dac.vref).toFixed(2);
 				$("#span_" + name + "_" + i).text(volts + "V - " + val + "%");
 				$("#slider_" + name + "_" + i).val(val);
 			}

@@ -1,5 +1,6 @@
 ==0.7 (xx/02/14)==
    improved touch device handling (issue #73)
+   updated jQuery library to version 1.11
 
    added PiFaceDigital driver
    added MCP3002 ADC driver

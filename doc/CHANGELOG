@@ -1,3 +1,29 @@
+==trunk/developer version==
+   improved touch device handling (issue #73)
+
+   added PiFaceDigital driver
+   added MCP3002 ADC driver
+   added MCP4802, MCP4812, MCP4822 ADC drivers
+   added HYT221 Humidity Sensor driver
+   added BMP180 Temperature & Pressure Sensor driver
+   added support of multiple MCP23Sxx on a single CE
+   added vref argument for MCP DAC and ADC (issue #48)
+   fixed devices monitor DAC display
+
+   added IPv6 binding support (issue #56)
+   added Content-Length fixed (issue #83)
+   added HTTP and CoAP clients IP and User-Agent in logs (issue #76)
+   added 'prompt' option in [HTTP] section of the config file (issue #69)
+   fixed macro binding with -s switch (issue #52)
+
+   fixed Luminosity.getLux REST mapping (issue #51)
+   fixed Serial monitor (issue #49)
+   fixed Serial low-level/binary handling
+   fixed 1-Wire Temperature sensors error handling (issue #68)
+
+   allows PiClients to run on others platforms than the Pi (issue #46)
+   general webiopi Python library improvements
+
 ==0.6 (27/03/13)==
    Added CoAP ([http://tools.ietf.org/html/draft-ietf-core-coap-14 draft-14]) implementation (Server and Client)
    Added Python WebIOPi Client class (HTTP or CoAP with HTTP fallback)

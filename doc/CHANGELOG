@@ -1,13 +1,14 @@
-==0.7 (xx/02/14)==
+==0.7 (03/xx/14) ==
    improved touch device handling (issue #73)
    updated jQuery library to version 1.11
 
    added PiFaceDigital driver
+   added PCF8591 ADC/DAC driver
    added MCP3002 ADC driver
    added MCP4802, MCP4812, MCP4822 ADC drivers
    added HYT221 Humidity Sensor driver
    added BMP180 Temperature & Pressure Sensor driver
-   added support of multiple MCP23Sxx on a single CE
+   added support of multiple MCP23Sxx on a single SPI CE line
    added vref argument for MCP DAC and ADC (issue #48)
    fixed devices monitor DAC display
 
@@ -25,7 +26,7 @@
    allows PiClients to run on others platforms than the Pi (issue #46)
    general webiopi Python library improvements
 
-==0.6 (27/03/13)==
+==0.6 (03/27/13)==
    Added CoAP ([http://tools.ietf.org/html/draft-ietf-core-coap-14 draft-14]) implementation (Server and Client)
    Added Python WebIOPi Client class (HTTP or CoAP with HTTP fallback)
    Added Python WebIOPi MulticastClient class (CoAP)

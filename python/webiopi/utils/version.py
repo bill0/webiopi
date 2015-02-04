@@ -1,7 +1,7 @@
 import re
 import sys
 
-VERSION         = '0.7.0'
+VERSION         = '0.7.1'
 VERSION_STRING  = "WebIOPi/%s/Python%d.%d" % (VERSION, sys.version_info.major, sys.version_info.minor)
 PYTHON_MAJOR    = sys.version_info.major
 BOARD_REVISION  = 0

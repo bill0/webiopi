@@ -114,6 +114,22 @@ cp -rf python/webiopi-passwd.py /usr/bin/webiopi-passwd
 sed -i "s/python/$python/g" /usr/bin/webiopi-passwd
 chmod 0755 /usr/bin/webiopi-passwd
 
+# Weaved installer
+echo
+echo "Do you want to access WebIOPi over Internet ? [y/n]"
+read response
+WEAVED=0
+if [ "$response" = "y" ]; then
+    ./weaved-setup.bin
+    if [ "$?" = "0" ]; then
+        WEAVED=1
+    else
+        WEAVED=2
+    fi
+    clear
+fi
+    
+
 # Display WebIOPi usages
 echo
 echo "WebIOPi successfully installed"
@@ -121,6 +137,17 @@ echo "* To start WebIOPi foreground\t: sudo webiopi [-h] [-c config] [-l log] [-
 echo
 echo "* To start WebIOPi background\t: sudo /etc/init.d/webiopi start"
 echo "* To start WebIOPi at boot\t: sudo update-rc.d webiopi defaults"
+echo
+
+if [ "$WEAVED" = "0" ]; then
+    echo "* Run ./weaved-setup.bin to install the Weaved IoT Kit and access your device over Internet"
+elif [ "$WEAVED" = "1" ]; then
+    echo "* Weaved IoT Kit installed, log on http://developer.weaved.com to access your device"
+elif [ "$WEAVED" = "2" ]; then
+    echo "! Something went wrong while installing the Weaved IoT Kit."
+    echo "* Run ./weaved-setup.bin to restart the Weaved IoT Kit Installer."
+fi
+    
 echo
 echo "* Look in `pwd`/examples for Python library usage examples"
 echo
